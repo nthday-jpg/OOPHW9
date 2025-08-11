@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="AccountManager.cpp" />
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="DungGiua.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MusicPlatform.cpp" />
     <ClCompile Include="Playlist.cpp" />

@@ -38,6 +38,9 @@ public:
 	void playCurrentSong();
 	void stopCurrentSong();
 
+	void showPlaylists() const;
+	void showAllSongs() const;
+
 private:
 	Playlist* getPlaylistByName(const std::string& name);
 };

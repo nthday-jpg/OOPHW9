@@ -5,7 +5,8 @@
 
 using namespace std;
 
-Platform::Platform(const std::string& path_to_songs) : path_to_songs(path_to_songs)
+Platform::Platform(const std::string& name, const std::string& path_to_songs) :
+	path_to_songs(path_to_songs), name(name)
 {
     loadSongs();
 }
@@ -84,4 +85,18 @@ const Song* Platform::getSong(const std::string& title) const
         return it->second;
     }
     return nullptr;  
+}
+
+void Platform::displayAllSongs() const
+{
+    if (songs.empty())
+    {
+        cout << "No songs available." << endl;
+        return;
+    }
+    cout << "Available songs:" << endl;
+    for (const auto& pair : songs)
+    {
+        cout << pair.second->getTitle() << " by " << pair.second->getArtist() << endl;
+    }
 }

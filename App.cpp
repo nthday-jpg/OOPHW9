@@ -232,3 +232,29 @@ void App::savePlaylists()
 		cout << "Playlists saved successfully." << endl;
 	}
 }
+
+void App::showPlaylists() const
+{
+	if (playlists.empty())
+	{
+		cout << "No playlists available." << endl;
+		return;
+	}
+	cout << "Available Playlists:" << endl;
+	for (const auto& pair : playlists)
+	{
+		cout << "- " << pair.first << endl;
+	}
+}
+
+void App::showAllSongs() const
+{
+	if (!currentPlatform)
+	{
+		cout << "No platform set. Please set a platform first." << endl;
+		return;
+	}
+	
+	cout << "Available Songs on " << currentPlatform->getName() << ": " << endl;
+	currentPlatform->displayAllSongs();
+}
