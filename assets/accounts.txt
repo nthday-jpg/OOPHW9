@@ -1,0 +1,3 @@
+john,password123,0,assets/john_playlists.txt
+alice,mypass456,1,assets/alice_playlists.txt
+user1,password1,1,assets/user1.txt
