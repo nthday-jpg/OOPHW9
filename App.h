@@ -38,4 +38,6 @@ public:
 	void playCurrentSong();
 	void stopCurrentSong();
 
+private:
+	Playlist* getPlaylistByName(const std::string& name);
 };

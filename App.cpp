@@ -51,59 +51,73 @@ void App::addPlaylist(const string& name)
 	cout << "Added playlist: " << name << endl;
 }
 
+Playlist* App::getPlaylistByName(const std::string& name)
+{
+    auto it = playlists.find(name);
+    if (it != playlists.end()) {
+        return it->second;
+    }
+    return nullptr;
+}
+
 void App::removePlaylist(const string& name)
 {
-	auto it = playlists.find(name);
-	if (it != playlists.end())
-	{
-		delete it->second;
-		playlists.erase(it);
-		cout << "Removed playlist: " << name << endl;
-	}
-	else
-	{
-		cout << "Playlist not found: " << name << endl;
-	}
+    Playlist* playlist = getPlaylistByName(name);
+    if (playlist)
+    {
+        if (curPlaylist == playlist) {
+            curPlaylist = nullptr;
+        }
+        
+        delete playlist;
+        playlists.erase(name);
+        cout << "Removed playlist: " << name << endl;
+    }
+    else
+    {
+        cout << "Playlist not found: " << name << endl;
+    }
 }
 
 void App::setCurrentPlaylist(const string& name)
 {
-	auto it = playlists.find(name);
-	if (it != playlists.end())
-	{
-		curPlaylist = it->second;
-		cout << "Current playlist set to: " << name << endl;
-	}
-	else
-	{
-		cout << "Playlist not found: " << name << endl;
-	}
+    Playlist* playlist = getPlaylistByName(name);
+    if (playlist)
+    {
+        curPlaylist = playlist;
+        cout << "Current playlist set to: " << name << endl;
+    }
+    else
+    {
+        cout << "Playlist not found: " << name << endl;
+    }
 }
 
 void App::addSongToPlaylist(const string& playlistName, const string& title)
 {
-	Playlist* playlist = playlists.at(playlistName);
-	if (!playlist)
-	{
-		cout << "Playlist not found: " << playlistName << endl;
-		return;
-	}
-	
-	if (!currentPlatform)
-	{
-		cout << "No platform set. Please set a platform first." << endl;
-		return;
-	}
-	const Song* song = currentPlatform->getSong(title);
-	if (song)
-	{
-		curPlaylist->addSong(song);
-		cout << "Added song: " << title << " to the curPlaylist." << endl;
-	}
-	else
-	{
-		cout << "Song not found: " << title << endl;
-	}
+    Playlist* playlist = getPlaylistByName(playlistName);
+    if (!playlist)
+    {
+        cout << "Playlist not found: " << playlistName << endl;
+        return;
+    }
+    
+    if (!currentPlatform)
+    {
+        cout << "No platform set. Please set a platform first." << endl;
+        return;
+    }
+    
+    const Song* song = currentPlatform->getSong(title);
+    if (song)
+    {
+        playlist->addSong(song);  
+        cout << "Added song: " << title << " to playlist: " << playlistName << endl;
+    }
+    else
+    {
+        cout << "Song not found: " << title << endl;
+    }
 }
 
 void App::playNextSong()
