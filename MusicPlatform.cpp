@@ -78,7 +78,7 @@ void Platform::removeSong(const std::string& user, const std::string& title)
     songs.erase(title);
 }
 
-const Song* Platform::getSong(const std::string& title) const
+Song* Platform::getSong(const std::string& title) const
 {
     auto it = songs.find(title);
     if (it != songs.end()) {
@@ -99,4 +99,14 @@ void Platform::displayAllSongs() const
     {
         cout << pair.second->getTitle() << " by " << pair.second->getArtist() << endl;
     }
+}
+
+void Platform::increasePlayCount(Song* song)
+{
+    if (song == nullptr)
+    {
+        cout << "Cannot increase play count for a null song." << endl;
+        return;
+    }
+	song->currentPlayCount++;
 }

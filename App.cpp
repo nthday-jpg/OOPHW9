@@ -108,7 +108,7 @@ void App::addSongToPlaylist(const string& playlistName, const string& title)
         return;
     }
     
-    const Song* song = currentPlatform->getSong(title);
+    Song* song = currentPlatform->getSong(title);
     if (song)
     {
         playlist->addSong(song);  
@@ -123,11 +123,13 @@ void App::addSongToPlaylist(const string& playlistName, const string& title)
 void App::playNextSong()
 {
 	curPlaylist->nextSong();
+	currentPlatform->increasePlayCount(curPlaylist->songs[curPlaylist->currentSongIndex]);
 }
 
 void App::playPreviousSong()
 {
 	curPlaylist->previousSong();
+	currentPlatform->increasePlayCount(curPlaylist->songs[curPlaylist->currentSongIndex]);
 }
 
 void App::removeCurrentSong()
@@ -139,6 +141,7 @@ void App::removeCurrentSong()
 void App::playCurrentSong()
 {
 	curPlaylist->playSong();
+	currentPlatform->increasePlayCount(curPlaylist->songs[curPlaylist->currentSongIndex]);
 }
 
 void App::stopCurrentSong()
@@ -193,7 +196,7 @@ void App::loadPlaylists()
 		string songTitle;
 		while (getline(iss, songTitle, ','))
 		{
-			const Song* song = currentPlatform->getSong(songTitle);
+			Song* song = currentPlatform->getSong(songTitle);
 			if (song)
 			{
 				playlist->addSong(song);
@@ -255,6 +258,6 @@ void App::showAllSongs() const
 		return;
 	}
 	
-	cout << "Available Songs on " << currentPlatform->getName() << ": " << endl;
-	currentPlatform->displayAllSongs();
+	cout << "Available Songs on " << currentPlatform<< endl;
+	
 }

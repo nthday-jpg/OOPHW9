@@ -36,8 +36,9 @@ public:
     const std::string& getLyrics() const { return lyrics; }
     int getReleaseYear() const { return releaseYear; }
     
-    
     friend std::ostream& operator<<(std::ostream& os, const Song& song);
+
+	int getCurrentPlayCount() const { return currentPlayCount; }
 
     void load(const std::string& path);
     void save(const std::string& path) const;

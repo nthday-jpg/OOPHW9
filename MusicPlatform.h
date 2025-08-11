@@ -4,6 +4,7 @@
 #include <unordered_map> 
 #include <set>
 #include "Song.h"
+#include "ISongTracker.h"
 
 class Platform
 {
@@ -22,8 +23,10 @@ public:
     void addSong(Song* song);
     void removeSong(const std::string& user, const std::string& title);
     void displayAllSongs() const;
-    const Song* getSong(const std::string& title) const;
+    Song* getSong(const std::string& title) const;
 
+	void addExcludeArtist(const std::string& artist) { excludeArtists.insert(artist); }
+    void increasePlayCount(Song* song);
 private:
     void loadSongs();
 };
