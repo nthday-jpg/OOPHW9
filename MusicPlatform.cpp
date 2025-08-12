@@ -58,7 +58,11 @@ void Platform::addSong(Song* song)
         cout << "Cannot add a null song." << endl;
         return;
     }
-
+    if (songs.find(song->getTitle()) != songs.end())
+    {
+        cout << "Song already exists: " << song->getTitle() << endl;
+        return;
+	}
     songs[song->getTitle()] = song;
 }
 
