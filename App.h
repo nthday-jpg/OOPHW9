@@ -41,6 +41,9 @@ public:
 	void showPlaylists() const;
 	void showAllSongs() const;
 
+	void showCurrentPlaylist() const;
+	void showTop5MostPlayedSongs() const;
+
 private:
 	Playlist* getPlaylistByName(const std::string& name);
 };

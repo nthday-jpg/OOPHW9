@@ -1,1 +1,2 @@
 Spotify,musics/Spotify.txt
+Apple Music,musics/Apple Music.txt

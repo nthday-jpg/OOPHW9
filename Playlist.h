@@ -14,6 +14,7 @@ public:
     Playlist(const std::string& name);
     ~Playlist();
 
+	void displaySongs() const;
     void setName(const std::string& newName);
     void addSong(Song* song);  
     void nextSong();

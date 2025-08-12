@@ -232,7 +232,6 @@ void App::savePlaylists()
 			}
 			file << "\n";
 		}
-		cout << "Playlists saved successfully." << endl;
 	}
 }
 
@@ -258,6 +257,44 @@ void App::showAllSongs() const
 		return;
 	}
 	
-	cout << "Available Songs on " << currentPlatform<< endl;
+	cout << "Available Songs on " << currentPlatform->getName() << endl;
+	currentPlatform->displayAllSongs();
+}
+
+void App::showCurrentPlaylist() const
+{
+	if (!curPlaylist)
+	{
+		cout << "No current playlist set." << endl;
+		return;
+	}
 	
+	cout << "Current Playlist: " << curPlaylist->name << endl;
+	curPlaylist->displaySongs();
+}
+
+void App::showTop5MostPlayedSongs() const
+{
+	if (!currentPlatform)
+	{
+		cout << "No platform set. Please set a platform first." << endl;
+		return;
+	}
+	
+	std::vector<Song*> topSongs = currentPlatform->getTop5MostPlayedSongs();
+
+	if (topSongs.empty())
+	{
+		cout << "No songs available." << endl;
+		return;
+	}
+
+	cout << "Top " << topSongs.size() << " Most Played Songs:" << endl;
+	cout << "======================================" << endl;
+
+	for (size_t i = 0; i < topSongs.size(); ++i)
+	{
+		cout << (i + 1) << ". " << *topSongs[i] << endl; // Dereference the pointer
+		cout << "--------------------------------------" << endl;
+	}
 }

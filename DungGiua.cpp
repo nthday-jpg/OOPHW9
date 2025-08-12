@@ -4,6 +4,15 @@
 #include <iostream>
 #include <string>
 
+DungGiua::DungGiua()
+{
+	loadPlatforms(); 
+	if (platforms.empty())
+	{
+		std::cerr << "No platforms loaded. Please check the platforms file." << std::endl;
+	}
+}
+
 DungGiua::~DungGiua()
 {
 	savePlatforms(); 
@@ -58,7 +67,7 @@ std::string DungGiua::exclusiveArtist(const std::string& artist)
 	for (const auto& pair : platforms)
 	{
 		const Platform* platform = pair.second;
-		if (platform->excludeArtists.find(artist) != platform->excludeArtists.end())
+		if (platform->exclusiveArtists.find(artist) != platform->exclusiveArtists.end())
 		{
 			return pair.first; 
 		}
@@ -78,9 +87,12 @@ void DungGiua::addSongToPlatform(const std::string& platformName, Song* song)
 		throw std::invalid_argument("Cannot a null song.");
 	}
 	Platform* platform = platforms[platformName];
-	if (platform->excludeArtists.find(song->getArtist()) != platform->excludeArtists.end())
+	if (platform->exclusiveArtists.find(song->getArtist()) == platform->exclusiveArtists.end())
 	{
-		throw std::runtime_error("Artist is exclusive to another platform: " + song->getArtist());
+		std::cout << "Artist " << song->getArtist() << " is not exclusive to platform " << platformName << ".\n";
+		std::cout << "This song will be deleted due to exclusivity rules!!!\n";
+		delete song; // Clean up the song object
+		return;
 	}
 	platform->addSong(song);
 }
@@ -110,7 +122,6 @@ void DungGiua::loadPlatforms()
 			}
 			Platform* newPlatform = new Platform(name, path_to_songs);
 			platforms[name] = newPlatform;
-			newPlatform->loadSongs();
 		}
 		else
 		{

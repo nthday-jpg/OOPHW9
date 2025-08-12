@@ -4,21 +4,27 @@
 #include "App.h"
 
 // Too many checks for null pointers, use observables or smart pointers in production code
-
+// Set platform before login
 int main()
 {
 	DungGiua dungGiua;
-	dungGiua.registerPlatform("Spotify");
+	dungGiua.registerPlatform("Apple Music");
 	App app;
 	app.setPlatform(dungGiua.getPlatform("Spotify"));
 	app.login("user1", "password1");
-	app.addPlaylist("My Playlist");
 	Platform* spotify = dungGiua.getPlatform("Spotify");
-	
-	app.addSongToPlaylist("My Playlist", "Song1");
-	app.addSongToPlaylist("My Playlist", "Song2");
+	Platform* appleMusic = dungGiua.getPlatform("Apple Music");
+	appleMusic->addExclusiveArtist("Artist5");
+	Song* song7 = new Song("Song7", "Artist5", "Lyrics of Song5", Genre::Western, 2020);
+	Song* song8 = new Song("Song8", "Artist5", "Lyrics of Song6", Genre::KPop, 2021);
+	dungGiua.addSongToPlatform("Apple Music", song7);
+	dungGiua.addSongToPlatform("Spotify", song8);
+	app.addSongToPlaylist("My Playlist 2", "Song3");
+	app.addSongToPlaylist("My Playlist 2", "Song4");
 	app.playCurrentSong();
+	app.setCurrentPlaylist("My Playlist 2");
 	app.playNextSong();
+	app.showTop5MostPlayedSongs();
 
 	app.logout();
 

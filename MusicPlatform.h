@@ -9,7 +9,7 @@ class Platform
 {
 	std::string name;
     std::unordered_map<std::string, Song*> songs; 
-    std::set<std::string> excludeArtists;
+    std::set<std::string> exclusiveArtists;
     std::string path_to_songs;
 
 	friend class DungGiua; 
@@ -19,13 +19,14 @@ public:
 
 	std::string getName() const { return name; }
 
-    void addSong(Song* song);
     void removeSong(const std::string& user, const std::string& title);
     void displayAllSongs() const;
     Song* getSong(const std::string& title) const;
 
-	void addExcludeArtist(const std::string& artist) { excludeArtists.insert(artist); }
+	void addExclusiveArtist(const std::string& artist) { exclusiveArtists.insert(artist); }
     void increasePlayCount(Song* song);
+    std::vector<Song*> getTop5MostPlayedSongs() const;
 private:
+    void addSong(Song* song);
     void loadSongs();
 };

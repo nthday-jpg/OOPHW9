@@ -2,6 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -113,4 +115,32 @@ void Platform::increasePlayCount(Song* song)
         return;
     }
 	song->currentPlayCount++;
+}
+
+std::vector<Song*> Platform::getTop5MostPlayedSongs() const
+{
+    std::vector<Song*> allSongs;
+    
+    // Collect all songs from the map
+    for (const auto& pair : songs)
+    {
+        allSongs.push_back(pair.second);
+    }
+    
+    // Sort by play count in descending order
+    std::sort(allSongs.begin(), allSongs.end(), 
+              [](const Song* a, const Song* b) {
+                  return a->currentPlayCount > b->currentPlayCount;
+              });
+    
+    // Return top 5 (or fewer if there are less than 5 songs)
+    std::vector<Song*> top5;
+    int count = std::min(5, static_cast<int>(allSongs.size()));
+    
+    for (int i = 0; i < count; ++i)
+    {
+        top5.push_back(allSongs[i]);
+    }
+    
+    return top5;
 }

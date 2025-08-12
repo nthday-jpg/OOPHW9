@@ -7,6 +7,7 @@ class DungGiua
 {
 	std::unordered_map<std::string, Platform*> platforms; 
 public:
+	DungGiua();
 	~DungGiua();
 	void registerPlatform(const std::string& name);
 	void removePlatform(const std::string& name);
