@@ -2,5 +2,5 @@ Song3
 Artist1
 1
 2020
-0
+1
 Lyrics1

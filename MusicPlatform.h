@@ -26,6 +26,7 @@ public:
 	void addExclusiveArtist(const std::string& artist) { exclusiveArtists.insert(artist); }
     void increasePlayCount(Song* song);
     std::vector<Song*> getTop5MostPlayedSongs() const;
+	std::vector<Song*> getTopSongsByGenre(Genre genre) const;
 private:
     void addSong(Song* song);
     void loadSongs();

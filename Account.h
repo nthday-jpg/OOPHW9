@@ -10,11 +10,11 @@ protected:
 
 	friend class AccountManager;
 public:
-	
-
+	virtual ~Account() = default;
 };
 
 class VIPAccount : public Account
 {
 public:
+	virtual ~VIPAccount() = default; 
 };

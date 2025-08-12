@@ -39,7 +39,7 @@ void Playlist::setName(const std::string& newName)
     name = newName;
 }
 
-void Playlist::addSong(Song* song)  // Remove const
+void Playlist::addSong(Song* song)  
 {
     if (song == nullptr)
     {

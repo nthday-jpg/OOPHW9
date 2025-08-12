@@ -43,6 +43,7 @@ public:
 
 	void showCurrentPlaylist() const;
 	void showTop5MostPlayedSongs() const;
+	void showTopSongsByGenre(Genre genre) const;
 
 private:
 	Playlist* getPlaylistByName(const std::string& name);

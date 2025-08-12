@@ -11,6 +11,7 @@ public:
 	AccountManager(const std::string& path);
 	~AccountManager();
 
+	bool isVIP() const { return dynamic_cast<VIPAccount*>(currentAccount) != nullptr; }
 	bool isLoggedIn() const { return currentAccount != nullptr; }
 	void login(const std::string& username, const std::string& password);
 	void logout();

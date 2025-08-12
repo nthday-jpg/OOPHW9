@@ -144,3 +144,25 @@ std::vector<Song*> Platform::getTop5MostPlayedSongs() const
     
     return top5;
 }
+
+std::vector<Song*> Platform::getTopSongsByGenre(Genre genre) const
+{
+    std::vector<Song*> topSongs;
+    
+    // Collect songs of the specified genre
+    for (const auto& pair : songs)
+    {
+        if (pair.second->getGenre() == genre)
+        {
+            topSongs.push_back(pair.second);
+        }
+    }
+    
+    // Sort by play count in descending order
+    std::sort(topSongs.begin(), topSongs.end(), 
+              [](const Song* a, const Song* b) {
+                  return a->currentPlayCount > b->currentPlayCount;
+              });
+    
+    return topSongs;
+}

@@ -120,48 +120,111 @@ void App::addSongToPlaylist(const string& playlistName, const string& title)
     }
 }
 
+void App::playCurrentSong()
+{
+    if (!curPlaylist)
+    {
+        cout << "No current playlist set." << endl;
+        return;
+    }
+    if (!currentPlatform)
+    {
+        cout << "No platform set. Please set a platform first." << endl;
+        return;
+    }
+    if (curPlaylist->songs.empty())
+    {
+        cout << "Current playlist is empty." << endl;
+        return;
+    }
+    
+    curPlaylist->playSong();
+    currentPlatform->increasePlayCount(curPlaylist->songs[curPlaylist->currentSongIndex]);
+}
+
 void App::playNextSong()
 {
-	curPlaylist->nextSong();
-	currentPlatform->increasePlayCount(curPlaylist->songs[curPlaylist->currentSongIndex]);
+    if (!curPlaylist)
+    {
+        cout << "No current playlist set." << endl;
+        return;
+    }
+    if (!currentPlatform)
+    {
+        cout << "No platform set. Please set a platform first." << endl;
+        return;
+    }
+    if (curPlaylist->songs.empty())
+    {
+        cout << "Current playlist is empty." << endl;
+        return;
+    }
+    
+    curPlaylist->nextSong();
+    // Don't call increasePlayCount here because nextSong() already calls playSong()
+    // which will be handled by the updated nextSong implementation
 }
 
 void App::playPreviousSong()
 {
-	curPlaylist->previousSong();
-	currentPlatform->increasePlayCount(curPlaylist->songs[curPlaylist->currentSongIndex]);
+    if (!curPlaylist)
+    {
+        cout << "No current playlist set." << endl;
+        return;
+    }
+    if (!currentPlatform)
+    {
+        cout << "No platform set. Please set a platform first." << endl;
+        return;
+    }
+    if (curPlaylist->songs.empty())
+    {
+        cout << "Current playlist is empty." << endl;
+        return;
+    }
+    
+    curPlaylist->previousSong();
+    // Don't call increasePlayCount here because previousSong() already calls playSong()
+    // which will be handled by the updated previousSong implementation
 }
 
 void App::removeCurrentSong()
 {
-	curPlaylist->removeSong();
-	cout << "Removed current song from the current playlist." << endl;
-}
-
-void App::playCurrentSong()
-{
-	curPlaylist->playSong();
-	currentPlatform->increasePlayCount(curPlaylist->songs[curPlaylist->currentSongIndex]);
+    if (!curPlaylist)
+    {
+        cout << "No current playlist set." << endl;
+        return;
+    }
+    
+		curPlaylist->removeSong();
+    cout << "Removed current song from the current playlist." << endl;
 }
 
 void App::stopCurrentSong()
 {
-	curPlaylist->stopSong();
-	cout << "Stopped current song." << endl;
+    if (!curPlaylist)
+    {
+        cout << "No current playlist set." << endl;
+        return;
+    }
+    
+    curPlaylist->stopSong();
+    cout << "Stopped current song." << endl;
 }
 
 void App::login(const string& username, const string& password)
 {
-	accountManager.login(username, password);
-	loadPlaylists();
-	if (playlists.empty())
-	{
-		curPlaylist = new Playlist("Default Playlist");
-	}
-	else
-	{
-		curPlaylist = playlists.begin()->second; 
-	}
+    accountManager.login(username, password);
+    loadPlaylists();
+    if (playlists.empty())
+    {
+        curPlaylist = new Playlist("Default Playlist");
+        playlists["Default Playlist"] = curPlaylist; // Add this line to fix the bug
+    }
+    else
+    {
+        curPlaylist = playlists.begin()->second; 
+    }
 }
 
 void App::logout()
@@ -295,6 +358,28 @@ void App::showTop5MostPlayedSongs() const
 	for (size_t i = 0; i < topSongs.size(); ++i)
 	{
 		cout << (i + 1) << ". " << *topSongs[i] << endl; // Dereference the pointer
+		cout << "--------------------------------------" << endl;
+	}
+}
+
+void App::showTopSongsByGenre(Genre genre) const
+{
+	if (!currentPlatform)
+	{
+		cout << "No platform set. Please set a platform first." << endl;
+		return;
+	}
+
+	std::vector<Song*> topSongs = currentPlatform->getTopSongsByGenre(genre);
+	if (topSongs.empty())
+	{
+		cout << "No songs available for this genre." << endl;
+		return;
+	}
+	cout << "Top Songs in Genre " << static_cast<int>(genre) << ":" << endl;
+	for (size_t i = 0; i < topSongs.size(); ++i)
+	{
+		cout << (i + 1) << ". " << *topSongs[i] << endl; 
 		cout << "--------------------------------------" << endl;
 	}
 }

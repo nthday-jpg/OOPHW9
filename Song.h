@@ -31,13 +31,14 @@ public:
         : title(title), artist(artist), lyrics(lyrics), genre(genre), releaseYear(releaseYear), currentPlayCount(0) {}  
 
     ~Song();
-    
+
+    virtual Genre getGenre() const { return genre; }
     virtual const std::string& getTitle() const { return title; }
     virtual const std::string& getArtist() const { return artist; }
     virtual const std::string& getLyrics() const { return lyrics; }
     virtual int getReleaseYear() const { return releaseYear; }
     
-    virtual friend std::ostream& operator<<(std::ostream& os, const Song& song);
+    friend std::ostream& operator<<(std::ostream& os, const Song& song);
 
     virtual int getCurrentPlayCount() const { return currentPlayCount; }
 
